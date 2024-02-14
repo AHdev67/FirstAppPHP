@@ -19,8 +19,26 @@ if (isset($_POST['submit'])){
             "total"=> $price*$qtt
         ];
         //fill products array with product arrays (i know) to display the total list of saved products.
-        $_SESSION['products'][] = $product;
+        $_SESSION['products'][] = $product;  
     }
+    
+    header("Location:index.php?success=1");
+    exit();
 }
 
-header("Location:index.php");
+
+switch ($_GET["action"]) {
+
+    case 'upqtt':
+        //var_dump($_GET['id']);die();
+        //si il y a un produit en session avec le meme id alors je fait qtt ++*
+        $product['qtt'] += 1;
+        break;
+
+    case 'downqtt':
+        $product['qtt'] -= 1;
+        break;
+}
+
+header("Location:recap.php");
+exit();
