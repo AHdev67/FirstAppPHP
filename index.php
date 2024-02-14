@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +17,7 @@
             <!-- NAVBAR -->
             <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-5" aria-label="Third navbar example">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Appli PHP</a>
+                    <span class="navbar-brand">Appli Web PHP</span>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -28,10 +32,10 @@
                             </li>
                         </ul>
                         
-                        <span class="badge bg-secondary">
+                        <span class="badge bg-secondary fs-6">
                             <?php 
-                                //$nbItems = array_key_last($_SESSION["products"]);
-                                //echo $nbItems;
+                                $nbItems = array_key_last($_SESSION["products"]);
+                                echo $nbItems+1, " produits dans le panier.";
                             ?>
                         </span>
                     </div>
@@ -40,7 +44,7 @@
         </header>
 
         <main>
-            <div class="container mx-auto bg-light border">
+            <div class="container mx-auto">
                 <div class="container mt-3 pb-5">
                     <h1>Ajouter un produit</h1>
                 </div>
@@ -54,22 +58,30 @@
 
                         <div class="mb-3">
                             <label for="prix" class="form-label">Prix du produit : </label>
-                            <input type="number" class="form-control" id="prix" name="price">
+                            <input type="number" step="any" class="form-control" id="prix" name="price">
                         </div>
 
                         <div class="mb-5">
                             <label for="quantite" class="form-label">Quantité d'articles : </label>
-                            <input type="number" class="form-control" id="quantite" name="qtt">
+                            <input type="number" value="1" class="form-control" id="quantite" name="qtt">
                         </div>
                        
                         <div class="mb-4">
                             <input type="submit" name="submit" value="Ajouter le produit">
+                            <?php
+                                if (isset($_GET['success']) && $_GET['success'] == 1){
+                                    echo "<div class='alert alert-primary' role='alert'>Produit ajouté !</div>";
+                                }
+                                // else {
+                                //     echo "<div class='alert alert-danger' role='alert'>Erreur, aucun produit ajouté ...</div>";
+                                // }
+                            ?>
                         </div>
                     </form>
                 </div>
             </div>
         </main>
-        
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
 
