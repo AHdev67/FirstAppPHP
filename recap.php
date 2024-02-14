@@ -17,7 +17,7 @@ session_start();
             <!-- NAVBAR -->
             <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-5" aria-label="Third navbar example">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Appli PHP</a>
+                    <span class="navbar-brand">Appli Web PHP</span>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -31,9 +31,12 @@ session_start();
                                 <a class="nav-link active" aria-current="page" href="recap.php">Panier</a>
                             </li>
                         </ul>
-                        <form>
-                        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-                        </form>
+                        <span class="badge bg-secondary fs-6"> 
+                            <?php 
+                                $nbItems = array_key_last($_SESSION["products"]);
+                                echo $nbItems+1, " produits dans le panier.";
+                            ?>
+                        </span>
                     </div>
                 </div>
             </nav>
@@ -60,6 +63,7 @@ session_start();
                                         "<th scope='col'>Prix</th>",
                                         "<th scope='col'>Quantité</th>",
                                         "<th scope='col'>Total</th>",
+                                        "<th scope='col'></th>",
                                     "</tr>",
                                 "</thead>",
 
@@ -68,18 +72,25 @@ session_start();
                         $totalGeneral = 0;
 
                         foreach($_SESSION["products"] as $index => $product){
+                            $index = $index+1;
                             echo "<tr>",
-                                    "<td>",$index+1,"</td>",
+                                    "<td>",$index,"</td>",
                                     "<td>".$product['name']."</td>",
                                     "<td>".number_format($product['price'], 2, ",", "&nbsp;")."&nbsp;€</td>",
-                                    "<td>".$product['qtt']."</td>",
+                                    "<td>
+                                        <a href='traitement.php?action=upqtt&id=$index' class='btn'>+</a> "
+                                        .$product['qtt'].
+                                        " <a href='traitement.php?action=downqtt&id=$index' class='btn'>-</a>
+                                    </td>",
                                     "<td>".number_format($product['total'], 2, ",", "&nbsp;")."&nbsp;€</td>",
+                                    "<td><a href='traitement.php?action=downqtt&id=$index' class='btn'>suppr</a></td>",
                                 "</tr>";
                             $totalGeneral += $product['total'];
                         }
                         echo "<tr>",
                                 "<td colspan=4>Total général : </td>",
                                 "<td><strong>".number_format($totalGeneral, 2, ",", "&nbsp;")."&nbsp;€</strong></td>",
+                                "<td><a href='traitement.php?action=downqtt&id=$index' class='btn'>Vider le panier</a></td>",
                             "</tr>",
                             "</tbody",
                             "</table>";
