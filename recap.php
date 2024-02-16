@@ -54,6 +54,10 @@
                 <?php
                     //IF products array is not set (session not started) OR products array is empty, display message.
                     if(!isset($_SESSION["products"]) || empty($_SESSION["products"])){
+                        if(isset($_SESSION['alerte'])){
+                            echo $_SESSION['alerte'];
+                            unset($_SESSION['alerte']);
+                        }   
                         echo "<p>Aucun produit en session ...</p>";
                     }
                     //ELSE display table containing array elements.
@@ -73,6 +77,11 @@
                                 "<tbody>";
                         //total price of all products
                         $totalGeneral = 0;
+
+                        if(isset($_SESSION['alerte'])){
+                            echo "<tr><td colspan=4>".$_SESSION['alerte']."<td></tr>";
+                            unset($_SESSION['alerte']);
+                        }   
 
                         foreach($_SESSION["products"] as $index => $product){
                             echo "<tr>",
@@ -95,6 +104,7 @@
                                 "</tr>";
                             $totalGeneral += $product['total'];
                         }
+
                         echo "<tr>",
                                 "<td colspan=4>Total général : </td>",
                                 "<td><strong>".number_format($totalGeneral, 2, ",", "&nbsp;")."&nbsp;€</strong></td>",
