@@ -1,5 +1,5 @@
 <?php
-session_start();
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -9,6 +9,7 @@ session_start();
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/b28c0a82b5.js" crossorigin="anonymous"></script>
         <title>Recapitulatif des produits</title>
     </head>
 
@@ -31,12 +32,14 @@ session_start();
                                 <a class="nav-link active" aria-current="page" href="recap.php">Panier</a>
                             </li>
                         </ul>
-                        <span class="badge bg-secondary fs-6"> 
-                            <?php 
-                                $nbItems = array_key_last($_SESSION["products"]);
-                                echo $nbItems+1, " produits dans le panier.";
-                            ?>
-                        </span>
+                        <a href="recap.php" class="btn btn-primary position-relative">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?php 
+                                    echo isset($_SESSION['products']) ? count($_SESSION['products']) : 0;
+                                ?>
+                            </span>
+                        </a>
                     </div>
                 </div>
             </nav>
@@ -72,25 +75,32 @@ session_start();
                         $totalGeneral = 0;
 
                         foreach($_SESSION["products"] as $index => $product){
-                            $index = $index+1;
                             echo "<tr>",
-                                    "<td>",$index,"</td>",
+                                    "<td>",$index+1,"</td>",
                                     "<td>".$product['name']."</td>",
                                     "<td>".number_format($product['price'], 2, ",", "&nbsp;")."&nbsp;€</td>",
                                     "<td>
-                                        <a href='traitement.php?action=upqtt&id=$index' class='btn'>+</a> "
+                                        <a href='traitement.php?action=upqtt&id=$index' class='btn'>
+                                            <i class='fa-solid fa-plus'></i>
+                                        </a> "
                                         .$product['qtt'].
-                                        " <a href='traitement.php?action=downqtt&id=$index' class='btn'>-</a>
+                                        " <a href='traitement.php?action=downqtt&id=$index' class='btn'>
+                                            <i class='fa-solid fa-minus'></i>
+                                        </a>
                                     </td>",
                                     "<td>".number_format($product['total'], 2, ",", "&nbsp;")."&nbsp;€</td>",
-                                    "<td><a href='traitement.php?action=downqtt&id=$index' class='btn'>suppr</a></td>",
+                                    "<td><a href='traitement.php?action=delete&id=$index' class='btn'>
+                                        <i class='fa-solid fa-trash'></i>
+                                    </a></td>",
                                 "</tr>";
                             $totalGeneral += $product['total'];
                         }
                         echo "<tr>",
                                 "<td colspan=4>Total général : </td>",
                                 "<td><strong>".number_format($totalGeneral, 2, ",", "&nbsp;")."&nbsp;€</strong></td>",
-                                "<td><a href='traitement.php?action=downqtt&id=$index' class='btn'>Vider le panier</a></td>",
+                                "<td><a href='traitement.php?action=clear&id=$index' class='btn btn-primary btn-sm'>
+                                    Vider le panier
+                                </a></td>",
                             "</tr>",
                             "</tbody",
                             "</table>";
