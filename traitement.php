@@ -26,10 +26,10 @@ if( isset($_GET['action'])){
                     ];
                     //fill products array with product arrays (i know) to display the total list of saved products.
                     $_SESSION['products'][] = $product;
-                    $_SESSION['alerte'] = "Produit ajouté !";
+                    $_SESSION['alerte'] = "<div class='alert alert-success mt-3' role='alert'>Produit ajouté au panier.</div>";
                 }
                 else{
-                    $_SESSION['alerte'] = "Erreur, aucun produit n'as été ajouté.";
+                    $_SESSION['alerte'] = "<div class='alert alert-danger mt-3' role='alert'>Erreur, aucun produit n'a été ajouté.</div>";
                 }
             }
             header("Location:index.php?success=1");
@@ -73,6 +73,7 @@ if( isset($_GET['action'])){
 
                 if(isset($_SESSION['products'][$index])) {
                     unset($_SESSION['products'][$index]);
+                    $_SESSION['alerte'] = "<div class='alert alert-primary mt-3' role='alert'>Produit retiré du panier.</div>";
                 }
             }
             header("Location:recap.php");
@@ -83,6 +84,7 @@ if( isset($_GET['action'])){
             if($_GET['action'] == "clear") {
 
                 unset($_SESSION['products']);
+                $_SESSION['alerte'] = "<div class='alert alert-primary mt-3' role='alert'>Votre panier à été vidé.</div>";
             }
             header("Location:recap.php");
             break;
