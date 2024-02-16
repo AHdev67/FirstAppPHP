@@ -75,10 +75,10 @@
                     </form>
 
                     <?php 
-                        if (isset($_GET['success']) && $_GET['success'] == 1){
-                            echo "<div class='alert alert-primary mt-3' role='alert'>".$_SESSION['alerte']."</div>";
+                        if(isset($_SESSION['alerte'])){
+                            echo $_SESSION['alerte'];
                             unset($_SESSION['alerte']);
-                        }
+                        }   
                     ?>
 
                 </div>
