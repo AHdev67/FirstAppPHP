@@ -55,7 +55,7 @@ if( isset($_GET['action'])){
             if($_GET['action'] == "downqtt") {
 
                 $index = isset($_GET['id']) ? $_GET['id'] : null;
-                if(isset($_SESSION['products'][$index]['qtt']) && $_SESSION['products'][$index]['qtt'] >= 1) {
+                if(isset($_SESSION['products'][$index]['qtt']) && $_SESSION['products'][$index]['qtt'] > 1) {
                     //désincrémentation
                     $_SESSION['products'][$index]['qtt']--;
                     //MaJ prix
